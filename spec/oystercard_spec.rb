@@ -14,7 +14,7 @@ describe Oystercard do
     end
     it "journeys should be empty when creating a new oystercard" do
       oystercard = Oystercard.new
-      expect(oystercard.journeys).to be_empty
+      expect(oystercard.journeys.count).to be(1)
     end
   end
 
@@ -48,7 +48,7 @@ describe Oystercard do
     it "returns the station that we touched in at" do
       oystercard.top_up(1)
       oystercard.touch_in(station)
-      expect(oystercard.entry_station).to eq station
+      expect(oystercard.journeys[-1].entry_station).to eq station
     end
 
     it "can touch in" do
@@ -88,7 +88,7 @@ describe Oystercard do
       oystercard.top_up(10)
       oystercard.touch_in(station)
       oystercard.touch_out(station)
-      expect(oystercard.exit_station).to eq(station)
+      expect(oystercard.journeys[-2].exit_station).to eq(station)
     end
   end
 
@@ -98,8 +98,7 @@ describe Oystercard do
     oystercard.top_up(10)
     oystercard.touch_in(station)
     oystercard.touch_out(station)
-    expect(oystercard.journeys.length).to eq(1)
-    puts oystercard.journeys
+    expect(oystercard.journeys.length).to eq(2)
     end
   end
 end
